@@ -174,7 +174,7 @@ def generate_description(request):
         try:
             headers = {
                 "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-                "HTTP-Referer": "http://127.0.0.1:8000", # Replace with your actual domain
+                "HTTP-Referer": "https://smart-blog-frontend.vercel.app", # Replace with your actual domain
                 "Content-Type": "application/json"
             }
             data = {
