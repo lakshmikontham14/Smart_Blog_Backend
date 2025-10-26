@@ -16,6 +16,7 @@ OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY")
 
 # Create your views here.
 @api_view(["GET"])
+@permission_classes([IsAuthenticated])
 def blog_list(request):
     blogs = Blog.objects.all()
 
