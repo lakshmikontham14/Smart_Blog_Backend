@@ -152,5 +152,6 @@ CORS_ALLOWED_ORIGINS = [
 "http://localhost:3000",
 "https://devfolio-xvbo.onrender.com",
 "https://devscribe.onrender.com",
-"https://smart-blog-frontend.vercel.app"
+"https://smart-blog-frontend.vercel.app",
+"https://smart-blog-frontend-p2x2jx7x2-lakshmis-projects-943f8887.vercel.app",
 ]
