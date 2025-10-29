@@ -160,8 +160,6 @@ def get_user(request, email):
 def generate_description(request):
     if request.method == "POST":
         title = request.data.get("title")
-        print(f"[DEBUG] Received title: {title}")
-        print(f"[DEBUG] Using OPENROUTER_API_KEY: {settings.OPENROUTER_API_KEY[:5]}...{settings.OPENROUTER_API_KEY[-5:]}")
         if not title:
             return Response(
                 {"error": "Title is required for description generation."},
@@ -180,16 +178,14 @@ def generate_description(request):
                     {"role": "user", "content": f"Generate a short description for a blog post with the following title: {title}"}
                 ]
             }
-            print(f"[DEBUG] Sending headers: {headers}")
-            print(f"[DEBUG] Sending data: {data}")
+           
             
             openrouter_response = requests.post(
                 url="https://openrouter.ai/api/v1/chat/completions",
                 headers=headers,
                 json=data
             )
-            print(f"[DEBUG] OpenRouter Response Status: {openrouter_response.status_code}")
-            print(f"[DEBUG] OpenRouter Response Text: {openrouter_response.text}")
+           
             openrouter_response.raise_for_status() # Raise an exception for HTTP errors
             
             response_data = openrouter_response.json()
