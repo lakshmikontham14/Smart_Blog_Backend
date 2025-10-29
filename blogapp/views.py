@@ -2,17 +2,14 @@ from django.shortcuts import render
 print("*** DEBUG: views.py is being loaded ***")
 from .models import Blog
 from django.contrib.auth import get_user_model
+from django.conf import settings
 from .serializers import SimpleAuthorSerializer, UpdateUserProfileSerializer, UserInfoSerializer, UserRegistrationSerializer, BlogSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 import os
-from dotenv import load_dotenv
 import requests # Import the requests library
-
-load_dotenv()
-OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY")
 
 # Create your views here.
 @api_view(["GET"])
@@ -164,7 +161,7 @@ def generate_description(request):
     if request.method == "POST":
         title = request.data.get("title")
         print(f"[DEBUG] Received title: {title}")
-        print(f"[DEBUG] Using OPENROUTER_API_KEY: {OPENROUTER_API_KEY[:5]}...{OPENROUTER_API_KEY[-5:]}")
+        print(f"[DEBUG] Using OPENROUTER_API_KEY: {settings.OPENROUTER_API_KEY[:5]}...{settings.OPENROUTER_API_KEY[-5:]}")
         if not title:
             return Response(
                 {"error": "Title is required for description generation."},
@@ -173,12 +170,12 @@ def generate_description(request):
 
         try:
             headers = {
-                "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-                "HTTP-Referer": "https://smart-blog-frontend.vercel.app", # Replace with your actual domain
+                "Authorization": f"Bearer {settings.OPENROUTER_API_KEY}",
+                "HTTP-Referer": "http://localhost:5173", # Replace with your actual domain
                 "Content-Type": "application/json"
             }
             data = {
-                "model": "google/gemini-2.5-flash-image", # Updated model name based on user input
+                "model": "google/gemini-2.5-pro", # Updated model name based on user input
                 "messages": [
                     {"role": "user", "content": f"Generate a short description for a blog post with the following title: {title}"}
                 ]
